@@ -1,0 +1,22 @@
+{
+  "name": "Local Beginner Java ITS Policy",
+  "cold_start": {
+    "assumption": "A newly registered learner starts at difficulty 1.",
+    "first_session_difficulty": 1,
+    "session_length": 20
+  },
+  "target_success_probability": {
+    "lower": 0.65,
+    "upper": 0.8,
+    "rationale": "The trained model still ranks same-difficulty candidates so practice stays achievable but not too easy."
+  },
+  "session_rules": {
+    "questions_per_session": 20,
+    "fixed_difficulty_per_session": true,
+    "level_up": "17 or more correct out of 20",
+    "stay": "12 to 16 correct out of 20",
+    "level_down": "fewer than 12 correct out of 20",
+    "anti_repetition": "Previously answered question IDs are excluded for the logged-in user."
+  },
+  "topic_choice": "Learner can practice a selected topic or mixed random practice."
+}

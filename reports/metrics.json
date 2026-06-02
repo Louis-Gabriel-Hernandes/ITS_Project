@@ -1,0 +1,254 @@
+{
+  "safe_modeling_note": "Final deployed model excludes current-row Attempts and CorrectEventually to reduce target leakage.",
+  "split_strategy": "GroupShuffleSplit by SubjectID; no student appears in both train and validation sets.",
+  "feature_columns": [
+    "phase_code",
+    "assignment_order_norm",
+    "problem_order_norm",
+    "estimated_difficulty",
+    "student_prior_items",
+    "student_prior_success_rate",
+    "student_prior_mean_attempts",
+    "student_prior_incorrect_rate",
+    "student_recent_success_rate",
+    "student_recent_mean_attempts",
+    "student_current_streak",
+    "student_prior_compile_success_rate"
+  ],
+  "train_rows": 19018,
+  "validation_rows": 4685,
+  "train_subjects": 395,
+  "validation_subjects": 99,
+  "models": {
+    "baseline_model": {
+      "train": {
+        "accuracy": 0.6871910821327164,
+        "auc": 0.7554519074219628,
+        "f1": 0.7627706663476492,
+        "precision": 0.8646596148630322,
+        "recall": 0.6823630136986302,
+        "brier_score": 0.20267567909808085,
+        "confusion_matrix": [
+          [
+            3505,
+            1497
+          ],
+          [
+            4452,
+            9564
+          ]
+        ],
+        "classification_report": {
+          "0": {
+            "precision": 0.44049264798290816,
+            "recall": 0.7007197121151539,
+            "f1-score": 0.5409368006790647,
+            "support": 5002.0
+          },
+          "1": {
+            "precision": 0.8646596148630322,
+            "recall": 0.6823630136986302,
+            "f1-score": 0.7627706663476492,
+            "support": 14016.0
+          },
+          "accuracy": 0.6871910821327164,
+          "macro avg": {
+            "precision": 0.6525761314229702,
+            "recall": 0.691541362906892,
+            "f1-score": 0.651853733513357,
+            "support": 19018.0
+          },
+          "weighted avg": {
+            "precision": 0.753097769856492,
+            "recall": 0.6871910821327164,
+            "f1-score": 0.704425256942125,
+            "support": 19018.0
+          }
+        }
+      },
+      "validation": {
+        "accuracy": 0.7050160085378868,
+        "auc": 0.7617430505405703,
+        "f1": 0.7849361967009025,
+        "precision": 0.8796651552145099,
+        "recall": 0.708626018544535,
+        "brier_score": 0.19354591113507966,
+        "confusion_matrix": [
+          [
+            781,
+            345
+          ],
+          [
+            1037,
+            2522
+          ]
+        ],
+        "classification_report": {
+          "0": {
+            "precision": 0.4295929592959296,
+            "recall": 0.6936056838365897,
+            "f1-score": 0.5305706521739131,
+            "support": 1126.0
+          },
+          "1": {
+            "precision": 0.8796651552145099,
+            "recall": 0.708626018544535,
+            "f1-score": 0.7849361967009025,
+            "support": 3559.0
+          },
+          "accuracy": 0.7050160085378868,
+          "macro avg": {
+            "precision": 0.6546290572552198,
+            "recall": 0.7011158511905624,
+            "f1-score": 0.6577534244374078,
+            "support": 4685.0
+          },
+          "weighted avg": {
+            "precision": 0.7714941215743132,
+            "recall": 0.7050160085378868,
+            "f1-score": 0.7238015962446827,
+            "support": 4685.0
+          }
+        }
+      }
+    },
+    "final_model": {
+      "train": {
+        "accuracy": 0.7872015984856452,
+        "auc": 0.8789563726450059,
+        "f1": 0.8444837259347501,
+        "precision": 0.9151328391771467,
+        "recall": 0.7839611872146118,
+        "brier_score": 0.14781148125065946,
+        "confusion_matrix": [
+          [
+            3983,
+            1019
+          ],
+          [
+            3028,
+            10988
+          ]
+        ],
+        "classification_report": {
+          "0": {
+            "precision": 0.5681072600199686,
+            "recall": 0.796281487405038,
+            "f1-score": 0.6631149587946391,
+            "support": 5002.0
+          },
+          "1": {
+            "precision": 0.9151328391771467,
+            "recall": 0.7839611872146118,
+            "f1-score": 0.8444837259347501,
+            "support": 14016.0
+          },
+          "accuracy": 0.7872015984856452,
+          "macro avg": {
+            "precision": 0.7416200495985577,
+            "recall": 0.7901213373098249,
+            "f1-score": 0.7537993423646946,
+            "support": 19018.0
+          },
+          "weighted avg": {
+            "precision": 0.8238602580989994,
+            "recall": 0.7872015984856452,
+            "f1-score": 0.7967812034174068,
+            "support": 19018.0
+          }
+        }
+      },
+      "validation": {
+        "accuracy": 0.7265741728922092,
+        "auc": 0.7658325751590669,
+        "f1": 0.8075131480090157,
+        "precision": 0.8678940568475452,
+        "recall": 0.7549873559988761,
+        "brier_score": 0.17874746629592486,
+        "confusion_matrix": [
+          [
+            717,
+            409
+          ],
+          [
+            872,
+            2687
+          ]
+        ],
+        "classification_report": {
+          "0": {
+            "precision": 0.4512271869100063,
+            "recall": 0.6367673179396093,
+            "f1-score": 0.5281767955801105,
+            "support": 1126.0
+          },
+          "1": {
+            "precision": 0.8678940568475452,
+            "recall": 0.7549873559988761,
+            "f1-score": 0.8075131480090157,
+            "support": 3559.0
+          },
+          "accuracy": 0.7265741728922092,
+          "macro avg": {
+            "precision": 0.6595606218787757,
+            "recall": 0.6958773369692427,
+            "f1-score": 0.6678449717945631,
+            "support": 4685.0
+          },
+          "weighted avg": {
+            "precision": 0.7677517098785658,
+            "recall": 0.7265741728922092,
+            "f1-score": 0.7403770257390163,
+            "support": 4685.0
+          }
+        }
+      }
+    }
+  },
+  "leakage_audit_model_validation": {
+    "accuracy": 0.9195304162219851,
+    "auc": 0.9759242447910559,
+    "f1": 0.9461043602573267,
+    "precision": 0.9630384167636787,
+    "recall": 0.9297555493116044,
+    "brier_score": 0.0600111549384047,
+    "confusion_matrix": [
+      [
+        999,
+        127
+      ],
+      [
+        250,
+        3309
+      ]
+    ],
+    "classification_report": {
+      "0": {
+        "precision": 0.799839871897518,
+        "recall": 0.8872113676731794,
+        "f1-score": 0.8412631578947368,
+        "support": 1126.0
+      },
+      "1": {
+        "precision": 0.9630384167636787,
+        "recall": 0.9297555493116044,
+        "f1-score": 0.9461043602573267,
+        "support": 3559.0
+      },
+      "accuracy": 0.9195304162219851,
+      "macro avg": {
+        "precision": 0.8814391443305984,
+        "recall": 0.908483458492392,
+        "f1-score": 0.8936837590760318,
+        "support": 4685.0
+      },
+      "weighted avg": {
+        "precision": 0.9238150311672441,
+        "recall": 0.9195304162219851,
+        "f1-score": 0.9209066667972889,
+        "support": 4685.0
+      }
+    }
+  },
+  "leakage_diagnostic": "Leakage audit warning: adding current-row Attempts/CorrectEventually increases AUC substantially. Those fields should not be used in the deployed predictive tutor because they summarize the current outcome."
+}

@@ -1,0 +1,9 @@
+{
+  "loss_curve": "/mnt/data/java_its_project/reports/figures/loss_curve.png",
+  "auc_curve": "/mnt/data/java_its_project/reports/figures/auc_curve.png",
+  "confusion_matrix": "/mnt/data/java_its_project/reports/figures/confusion_matrix.png",
+  "precision_recall_curve": "/mnt/data/java_its_project/reports/figures/precision_recall_curve.png",
+  "calibration_curve": "/mnt/data/java_its_project/reports/figures/calibration_curve.png",
+  "feature_importance": "/mnt/data/java_its_project/reports/figures/feature_importance.png",
+  "predicted_probability_histogram": "/mnt/data/java_its_project/reports/figures/predicted_probability_histogram.png"
+}

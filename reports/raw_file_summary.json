@@ -1,0 +1,126 @@
+{
+  "DatasetMetadata.csv": {
+    "exists": true,
+    "size_mb": 0.0,
+    "rows_estimate": 5,
+    "columns": [
+      "Property",
+      "Value"
+    ],
+    "dtypes": {
+      "Property": "str",
+      "Value": "str"
+    }
+  },
+  "MainTable.csv": {
+    "exists": true,
+    "size_mb": 84.3,
+    "rows_estimate": 361323,
+    "columns": [
+      "SubjectID",
+      "ToolInstances",
+      "ServerTimestamp",
+      "ServerTimezone",
+      "CourseID",
+      "AssignmentID",
+      "ProblemID",
+      "CodeStateID",
+      "IsEventOrderingConsistent",
+      "EventType",
+      "Score",
+      "Compile.Result",
+      "CompileMessageType",
+      "CompileMessageData",
+      "EventID",
+      "Order",
+      "ParentEventID"
+    ],
+    "dtypes": {
+      "SubjectID": "str",
+      "ToolInstances": "str",
+      "ServerTimestamp": "str",
+      "ServerTimezone": "int64",
+      "CourseID": "str",
+      "AssignmentID": "int64",
+      "ProblemID": "int64",
+      "CodeStateID": "str",
+      "IsEventOrderingConsistent": "bool",
+      "EventType": "str",
+      "Score": "float64",
+      "Compile.Result": "str",
+      "CompileMessageType": "str",
+      "CompileMessageData": "str",
+      "EventID": "int64",
+      "Order": "int64",
+      "ParentEventID": "float64"
+    }
+  },
+  "early.csv": {
+    "exists": true,
+    "size_mb": 1.17,
+    "rows_estimate": 14317,
+    "columns": [
+      "SubjectID",
+      "AssignmentID",
+      "ProblemID",
+      "Attempts",
+      "CorrectEventually",
+      "Label"
+    ],
+    "dtypes": {
+      "SubjectID": "str",
+      "AssignmentID": "int64",
+      "ProblemID": "int64",
+      "Attempts": "int64",
+      "CorrectEventually": "bool",
+      "Label": "bool"
+    }
+  },
+  "late.csv": {
+    "exists": true,
+    "size_mb": 0.77,
+    "rows_estimate": 9386,
+    "columns": [
+      "SubjectID",
+      "AssignmentID",
+      "ProblemID",
+      "Attempts",
+      "CorrectEventually",
+      "Label"
+    ],
+    "dtypes": {
+      "SubjectID": "str",
+      "AssignmentID": "int64",
+      "ProblemID": "int64",
+      "Attempts": "int64",
+      "CorrectEventually": "bool",
+      "Label": "bool"
+    }
+  },
+  "Subject.csv": {
+    "exists": true,
+    "size_mb": 0.03,
+    "rows_estimate": 506,
+    "columns": [
+      "SubjectID",
+      "X-Grade"
+    ],
+    "dtypes": {
+      "SubjectID": "str",
+      "X-Grade": "float64"
+    }
+  },
+  "CodeStates.csv": {
+    "exists": true,
+    "size_mb": 49.38,
+    "rows_estimate": 2322925,
+    "columns": [
+      "CodeStateID",
+      "Code"
+    ],
+    "dtypes": {
+      "CodeStateID": "str",
+      "Code": "str"
+    }
+  }
+}

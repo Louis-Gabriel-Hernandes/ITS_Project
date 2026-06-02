@@ -1,0 +1,7 @@
+{
+  "rows": 24032,
+  "students": 506,
+  "assignments": 5,
+  "problems": 50,
+  "note": "These current-problem aggregates are saved for EDA and should not be used in the safe deployed model."
+}

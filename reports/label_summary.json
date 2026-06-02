@@ -1,0 +1,24 @@
+{
+  "rows": 23703,
+  "students": 494,
+  "assignments": 5,
+  "problems": 50,
+  "label_distribution": {
+    "1": 17575,
+    "0": 6128
+  },
+  "phase_distribution": {
+    "early": 14317,
+    "late": 9386
+  },
+  "attempts_summary": {
+    "count": 23703.0,
+    "mean": 5.102645234780407,
+    "std": 7.247278604764784,
+    "min": 1.0,
+    "25%": 1.0,
+    "50%": 2.0,
+    "75%": 6.0,
+    "max": 177.0
+  }
+}

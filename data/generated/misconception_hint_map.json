@@ -1,0 +1,409 @@
+{
+  "variable_assignment": {
+    "description": "Variables store values that can be read or changed later.",
+    "related_topics": [
+      "variables"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a variables question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Variables store values that can be read or changed later."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier variables practice before increasing difficulty."
+  },
+  "primitive_type_selection": {
+    "description": "Choose a type that matches the kind of data: int, double, boolean, or char.",
+    "related_topics": [
+      "primitive_types"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a primitive types question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Choose a type that matches the kind of data: int, double, boolean, or char."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier primitive types practice before increasing difficulty."
+  },
+  "string_basics": {
+    "description": "Strings store text and often use methods such as equals and length.",
+    "related_topics": [
+      "strings"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a strings question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Strings store text and often use methods such as equals and length."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier strings practice before increasing difficulty."
+  },
+  "string_comparison": {
+    "description": "String contents should usually be compared with .equals(...), not ==.",
+    "related_topics": [
+      "strings"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a strings question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "String contents should usually be compared with .equals(...), not ==."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier strings practice before increasing difficulty."
+  },
+  "operator_precedence": {
+    "description": "Java evaluates multiplication before addition unless parentheses change the order.",
+    "related_topics": [
+      "operators"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a operators question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Java evaluates multiplication before addition unless parentheses change the order."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier operators practice before increasing difficulty."
+  },
+  "operator_basics": {
+    "description": "Operators calculate, compare, or combine boolean values.",
+    "related_topics": [
+      "operators"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a operators question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Operators calculate, compare, or combine boolean values."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier operators practice before increasing difficulty."
+  },
+  "conditional_logic": {
+    "description": "An if statement runs only the branch whose condition is true.",
+    "related_topics": [
+      "conditionals"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a conditionals question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "An if statement runs only the branch whose condition is true."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier conditionals practice before increasing difficulty."
+  },
+  "loop_boundaries": {
+    "description": "When a loop starts at 0 and uses < n, it runs n times.",
+    "related_topics": [
+      "loops"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a loops question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "When a loop starts at 0 and uses < n, it runs n times."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier loops practice before increasing difficulty."
+  },
+  "off_by_one": {
+    "description": "Check whether the final value should be included or excluded.",
+    "related_topics": [
+      "loops",
+      "arrays"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a loops question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Check whether the final value should be included or excluded."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier loops practice before increasing difficulty."
+  },
+  "array_indexing": {
+    "description": "Array indexes start at 0, and the largest valid index is length - 1.",
+    "related_topics": [
+      "arrays"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a arrays question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Array indexes start at 0, and the largest valid index is length - 1."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier arrays practice before increasing difficulty."
+  },
+  "method_parameters": {
+    "description": "Arguments go into parameters; return sends a result back.",
+    "related_topics": [
+      "methods"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a methods question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Arguments go into parameters; return sends a result back."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier methods practice before increasing difficulty."
+  },
+  "object_state": {
+    "description": "Objects are created with new, and fields store object data.",
+    "related_topics": [
+      "classes_objects"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a classes objects question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Objects are created with new, and fields store object data."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier classes objects practice before increasing difficulty."
+  },
+  "syntax_vs_logic_error": {
+    "description": "Syntax errors break Java rules; logic errors run but produce the wrong result.",
+    "related_topics": [
+      "debugging"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a debugging question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Syntax errors break Java rules; logic errors run but produce the wrong result."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier debugging practice before increasing difficulty."
+  },
+  "trace_execution": {
+    "description": "Trace code in order and update your variable table after each line.",
+    "related_topics": [
+      "code_tracing"
+    ],
+    "diagnostic_signals": [
+      "incorrect answer on a code tracing question",
+      "hint used before answering",
+      "wrong trace or small syntax repair"
+    ],
+    "hint_sequence": [
+      {
+        "level": 1,
+        "type": "conceptual",
+        "text": "Trace code in order and update your variable table after each line."
+      },
+      {
+        "level": 2,
+        "type": "strategic",
+        "text": "Try a tiny example and write values down step by step."
+      },
+      {
+        "level": 3,
+        "type": "worked_example",
+        "text": "Read the code from top to bottom, update one value at a time, then answer."
+      }
+    ],
+    "remediation_activity": "Give easier code tracing practice before increasing difficulty."
+  }
+}
