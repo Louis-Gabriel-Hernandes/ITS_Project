@@ -1355,7 +1355,7 @@ def mastery_rows(student: dict[str, Any], topics: list[str]) -> list[dict[str, A
 # ============================================================================
 def render_sidebar(user: dict[str, Any], student: dict[str, Any], question_bank: list[dict[str, Any]]) -> None:
     topics = available_topics(question_bank)
-    option_values = [MIXED_TOPIC, *topics]
+    option_values = topics
     option_labels = [get_topic_display_name(t) for t in option_values]
     current_filter = st.session_state.get("active_topic_filter", MIXED_TOPIC)
     if current_filter not in option_values:
