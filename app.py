@@ -1231,10 +1231,13 @@ def start_new_learning_session(topic_filter: str | None = None, increment_sessio
     difficulty = max(1, min(5, int(student.get("current_difficulty", 1) or 1)))
     student["current_difficulty"] = difficulty
 
-    # Random mixed practice is disabled. Keep the selected topic specific.
-    selected_topic = topic_filter or st.session_state.get("pending_topic_filter") or st.session_state.get("active_topic_filter")
-    if selected_topic == MIXED_TOPIC:
-        selected_topic = None
+    # Keep the selected mode. It can be a specific topic or MIXED_TOPIC.
+    selected_topic = (
+        topic_filter
+        or st.session_state.get("pending_topic_filter")
+        or st.session_state.get("active_topic_filter")
+        or MIXED_TOPIC
+    )
 
     st.session_state.student = student
     st.session_state.active_topic_filter = selected_topic
@@ -1355,22 +1358,77 @@ def mastery_rows(student: dict[str, Any], topics: list[str]) -> list[dict[str, A
     return rows
 
 
+def choose_random_forest_mixed_question(
+    available: list[dict[str, Any]],
+    student: dict[str, Any],
+    model_package: Any,
+    target_range: tuple[float, float],
+) -> dict[str, Any] | None:
+    """Select a mixed-topic question using the Random Forest success probability.
+
+    Mixed mode should not be a simple random grab from all topics. It should still
+    use the trained model to estimate whether the question is an appropriate
+    challenge, then prefer weak topics when several questions are equally suitable.
+    """
+    if not available:
+        return None
+
+    lower, upper = target_range
+    midpoint = (lower + upper) / 2
+
+    scored: list[tuple[float, float, float, int, dict[str, Any]]] = []
+    for idx, question in enumerate(available):
+        probability = safe_success_probability(question, student, model_package)
+        if probability is None:
+            continue
+
+        topic = str(question.get("topic", ""))
+        long_term_rate = topic_success_rate(student, topic)
+        recent_rate = recent_topic_success_rate(student, topic)
+        topic_attempts = int(student.get("attempts_by_topic", {}).get(topic, 0) or 0)
+
+        # Higher weakness means this topic deserves more practice.
+        # New topics are treated as weak enough to receive exposure.
+        if topic_attempts == 0:
+            weakness_score = 1.0
+        else:
+            weakness_score = 1.0 - ((long_term_rate + recent_rate) / 2)
+
+        in_target_range = 1.0 if lower <= probability <= upper else 0.0
+        distance_from_target = abs(probability - midpoint)
+
+        scored.append(
+            (
+                in_target_range,
+                weakness_score,
+                -distance_from_target,
+                -idx,
+                question,
+            )
+        )
+
+    if not scored:
+        return None
+
+    scored.sort(reverse=True)
+    return scored[0][-1]
+
+
 # ============================================================================
 # SIDEBAR
 # ============================================================================
 def render_sidebar(user: dict[str, Any], student: dict[str, Any], question_bank: list[dict[str, Any]]) -> None:
     topics = available_topics(question_bank)
-    option_values = topics
+    # Put Random mixed practice at the end so topic-specific practice stays first.
+    option_values = [*topics, MIXED_TOPIC]
     option_labels = [get_topic_display_name(t) for t in option_values]
 
-    if not option_values:
+    if not topics:
         st.sidebar.warning("No topic-specific questions are available yet.")
         return
 
-    # Saved progress from older versions may still contain "__mixed__".
-    # Since random mixed practice is disabled, normalize it to the first real topic.
     current_filter = st.session_state.get("active_topic_filter") or st.session_state.get("pending_topic_filter")
-    if current_filter == MIXED_TOPIC or current_filter not in option_values:
+    if current_filter not in option_values:
         current_filter = option_values[0]
         st.session_state.active_topic_filter = current_filter
         st.session_state.pending_topic_filter = current_filter
@@ -1401,7 +1459,7 @@ def render_sidebar(user: dict[str, Any], student: dict[str, Any], question_bank:
             "Question category",
             option_labels,
             index=option_values.index(current_filter),
-            help="Choose one topic for the next 20-question session.",
+            help="Choose one topic or Random mixed practice for the next 20-question session.",
         )
         selected_topic = option_values[option_labels.index(selected_label)]
         st.session_state.pending_topic_filter = selected_topic
@@ -1532,14 +1590,12 @@ def render_progress_bar() -> None:
 
 def filtered_available_questions(question_bank: list[dict[str, Any]]) -> list[dict[str, Any]]:
     answered = set(st.session_state.get("answered_question_ids", set())) | set(st.session_state.get("session_answered_ids", set()))
-    topic_filter = st.session_state.get("active_topic_filter")
+    topic_filter = st.session_state.get("active_topic_filter", MIXED_TOPIC)
     difficulty = int(st.session_state.get("session_difficulty", 1))
 
-    # Random mixed practice is disabled. If old saved progress still has
-    # __mixed__, force the session into the first available topic.
     topics = available_topics(question_bank)
-    if topic_filter == MIXED_TOPIC or topic_filter not in topics:
-        topic_filter = topics[0] if topics else None
+    if topic_filter not in [*topics, MIXED_TOPIC]:
+        topic_filter = topics[0] if topics else MIXED_TOPIC
         st.session_state.active_topic_filter = topic_filter
         st.session_state.pending_topic_filter = topic_filter
 
@@ -1548,7 +1604,7 @@ def filtered_available_questions(question_bank: list[dict[str, Any]]) -> list[di
         for q in question_bank
         if int(q.get("difficulty", 1)) == difficulty
         and stable_question_id(q) not in answered
-        and q.get("topic") == topic_filter
+        and (topic_filter == MIXED_TOPIC or q.get("topic") == topic_filter)
     ]
     return questions
 
@@ -1564,14 +1620,14 @@ def current_or_next_question(
 
     if st.session_state.get("current_question") is not None:
         current_question = st.session_state.current_question
-        active_topic = st.session_state.get("active_topic_filter")
+        active_topic = st.session_state.get("active_topic_filter", MIXED_TOPIC)
         current_difficulty = int(st.session_state.get("session_difficulty", 1))
 
-        # Do not keep showing a saved question from the old mixed mode.
-        if (
-            current_question.get("topic") == active_topic
-            and int(current_question.get("difficulty", 1)) == current_difficulty
-        ):
+        # In Random mixed practice, the saved question can come from any topic.
+        # In topic-specific practice, it must still match the selected topic.
+        same_difficulty = int(current_question.get("difficulty", 1)) == current_difficulty
+        topic_is_valid = active_topic == MIXED_TOPIC or current_question.get("topic") == active_topic
+        if same_difficulty and topic_is_valid:
             return current_question
 
         st.session_state.current_question = None
@@ -1583,15 +1639,37 @@ def current_or_next_question(
         return None
 
     target_cfg = policy.get("target_success_probability", {"lower": 0.65, "upper": 0.80})
+    target_range = (target_cfg.get("lower", 0.65), target_cfg.get("upper", 0.80))
+
     try:
-        selected = choose_next_question(
-            available,
-            student,
-            model_package=model_package,
-            target_range=(target_cfg.get("lower", 0.65), target_cfg.get("upper", 0.80)),
-        )
+        if st.session_state.get("active_topic_filter", MIXED_TOPIC) == MIXED_TOPIC:
+            selected = choose_random_forest_mixed_question(
+                available,
+                student,
+                model_package=model_package,
+                target_range=target_range,
+            )
+        else:
+            selected = choose_next_question(
+                available,
+                student,
+                model_package=model_package,
+                target_range=target_range,
+            )
     except Exception:
         selected = None
+
+    # Fallback keeps the app usable if the model package is missing or incompatible.
+    if selected is None:
+        try:
+            selected = choose_next_question(
+                available,
+                student,
+                model_package=model_package,
+                target_range=target_range,
+            )
+        except Exception:
+            selected = None
 
     st.session_state.current_question = selected or available[0]
     persist_progress()
@@ -1871,7 +1949,7 @@ def render_no_questions_screen(question_bank: list[dict[str, Any]]) -> None:
           <h2 style="margin:.2rem 0 .35rem 0;">No unused questions left here.</h2>
           <p style="color:#64748b;font-size:1.05rem;margin:0 0 1.25rem 0;">
             You have already answered all available questions for {safe_html(get_topic_display_name(topic_filter))} at difficulty {difficulty}.
-            Choose another topic or reset saved progress if you want to restart.
+            Choose another topic, Random mixed practice, or reset saved progress if you want to restart.
           </p>
         </div>
         """,
