@@ -1231,9 +1231,14 @@ def start_new_learning_session(topic_filter: str | None = None, increment_sessio
     difficulty = max(1, min(5, int(student.get("current_difficulty", 1) or 1)))
     student["current_difficulty"] = difficulty
 
+    # Random mixed practice is disabled. Keep the selected topic specific.
+    selected_topic = topic_filter or st.session_state.get("pending_topic_filter") or st.session_state.get("active_topic_filter")
+    if selected_topic == MIXED_TOPIC:
+        selected_topic = None
+
     st.session_state.student = student
-    st.session_state.active_topic_filter = topic_filter or st.session_state.get("pending_topic_filter", MIXED_TOPIC)
-    st.session_state.pending_topic_filter = st.session_state.active_topic_filter
+    st.session_state.active_topic_filter = selected_topic
+    st.session_state.pending_topic_filter = selected_topic
     st.session_state.session_difficulty = difficulty
     st.session_state.session_answered_ids = set()
     st.session_state.session_results = []
@@ -1357,9 +1362,19 @@ def render_sidebar(user: dict[str, Any], student: dict[str, Any], question_bank:
     topics = available_topics(question_bank)
     option_values = topics
     option_labels = [get_topic_display_name(t) for t in option_values]
-    current_filter = st.session_state.get("active_topic_filter", MIXED_TOPIC)
-    if current_filter not in option_values:
-        current_filter = MIXED_TOPIC
+
+    if not option_values:
+        st.sidebar.warning("No topic-specific questions are available yet.")
+        return
+
+    # Saved progress from older versions may still contain "__mixed__".
+    # Since random mixed practice is disabled, normalize it to the first real topic.
+    current_filter = st.session_state.get("active_topic_filter") or st.session_state.get("pending_topic_filter")
+    if current_filter == MIXED_TOPIC or current_filter not in option_values:
+        current_filter = option_values[0]
+        st.session_state.active_topic_filter = current_filter
+        st.session_state.pending_topic_filter = current_filter
+        persist_progress()
 
     with st.sidebar:
         st.markdown(
@@ -1386,7 +1401,7 @@ def render_sidebar(user: dict[str, Any], student: dict[str, Any], question_bank:
             "Question category",
             option_labels,
             index=option_values.index(current_filter),
-            help="Choose one topic or mixed practice for the next 20-question session.",
+            help="Choose one topic for the next 20-question session.",
         )
         selected_topic = option_values[option_labels.index(selected_label)]
         st.session_state.pending_topic_filter = selected_topic
@@ -1517,15 +1532,23 @@ def render_progress_bar() -> None:
 
 def filtered_available_questions(question_bank: list[dict[str, Any]]) -> list[dict[str, Any]]:
     answered = set(st.session_state.get("answered_question_ids", set())) | set(st.session_state.get("session_answered_ids", set()))
-    topic_filter = st.session_state.get("active_topic_filter", MIXED_TOPIC)
+    topic_filter = st.session_state.get("active_topic_filter")
     difficulty = int(st.session_state.get("session_difficulty", 1))
+
+    # Random mixed practice is disabled. If old saved progress still has
+    # __mixed__, force the session into the first available topic.
+    topics = available_topics(question_bank)
+    if topic_filter == MIXED_TOPIC or topic_filter not in topics:
+        topic_filter = topics[0] if topics else None
+        st.session_state.active_topic_filter = topic_filter
+        st.session_state.pending_topic_filter = topic_filter
 
     questions = [
         q
         for q in question_bank
         if int(q.get("difficulty", 1)) == difficulty
         and stable_question_id(q) not in answered
-        and (topic_filter == MIXED_TOPIC or q.get("topic") == topic_filter)
+        and q.get("topic") == topic_filter
     ]
     return questions
 
@@ -1540,7 +1563,19 @@ def current_or_next_question(
         return None
 
     if st.session_state.get("current_question") is not None:
-        return st.session_state.current_question
+        current_question = st.session_state.current_question
+        active_topic = st.session_state.get("active_topic_filter")
+        current_difficulty = int(st.session_state.get("session_difficulty", 1))
+
+        # Do not keep showing a saved question from the old mixed mode.
+        if (
+            current_question.get("topic") == active_topic
+            and int(current_question.get("difficulty", 1)) == current_difficulty
+        ):
+            return current_question
+
+        st.session_state.current_question = None
+        persist_progress()
 
     available = filtered_available_questions(question_bank)
     if not available:
@@ -1836,7 +1871,7 @@ def render_no_questions_screen(question_bank: list[dict[str, Any]]) -> None:
           <h2 style="margin:.2rem 0 .35rem 0;">No unused questions left here.</h2>
           <p style="color:#64748b;font-size:1.05rem;margin:0 0 1.25rem 0;">
             You have already answered all available questions for {safe_html(get_topic_display_name(topic_filter))} at difficulty {difficulty}.
-            Choose another topic, choose mixed practice, or reset saved progress if you want to restart.
+            Choose another topic or reset saved progress if you want to restart.
           </p>
         </div>
         """,
